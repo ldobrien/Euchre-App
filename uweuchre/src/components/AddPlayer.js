@@ -1,22 +1,17 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import { createPlayer } from "../store/actions/playerActions"
+import { connect } from "react-redux";
 
 class AddPlayer extends Component {
     state = {
         Name:"",
-        Skill:"",
-        Submitted: 0
+        Skill:""
+        // Submitted: 0
     }
     submitted = 0;
     handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('/api/players', {
-            Name: this.state.Name,
-            Skill: this.state.Skill
-        })
-        .then(res => res.status === 200 ? this.setState({
-            Submitted: 1
-        }): -1);
+        this.props.createPlayer(this.state);
     }
     handleChange = (e) =>{
         this.setState({
@@ -24,10 +19,10 @@ class AddPlayer extends Component {
         })
     }
     render(){
-        const submitted = this.state.Submitted === 1 ? 
-            <p>Player Sucessfully Added</p>
-             : 
-            <p>No Players Added</p>;
+        // const submitted = this.state.Submitted === 1 ? 
+        //     <p>Player Sucessfully Added</p>
+        //      : 
+        //     <p>No Players Added</p>;
         return (
             <div className="container">
             <h1>Add Player</h1>
@@ -37,10 +32,16 @@ class AddPlayer extends Component {
                     <input type="text" onChange={this.handleChange} name="Skill" placeholder="Skill"/>
                     <button type="submit"> Add </button>
                 </form>
-            {submitted}
+            {/* {submitted} */}
             </div>
         )
     }
 }
+const mapDispatchtoProps = (dispatch) => {
+    return {
+        createPlayer: (player) => dispatch({type: "CREATE_PLAYER", player})
+        // createPlayer: (player) => dispatch(createPlayer(player))
+    }
+}
 
-export default AddPlayer
+export default connect(null, mapDispatchtoProps)(AddPlayer)

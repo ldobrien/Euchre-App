@@ -8,3 +8,5 @@ const rootReducer = combineReducers({
     game: gameReducer,
     auth: authReducer
 })
+
+export default rootReducer;

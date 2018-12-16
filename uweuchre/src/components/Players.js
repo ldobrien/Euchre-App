@@ -1,16 +1,13 @@
 import React, {Component} from 'react'
-import Player from './Player';
-import AddPlayer from './AddPlayer';
-import axios from 'axios';
+// import Player from './Player';
+// import AddPlayer from './AddPlayer';
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 
 class Players extends Component {
-    state ={
-        players: []
-    }
 
     render(){
-        const { players } = this.state;
+        const { players } = this.props;
         console.log(players);
         const playerList = Object.values(players).map(player => {
             console.log(player)
@@ -34,5 +31,10 @@ class Players extends Component {
     }
 }
 
+const mapStatetoProps = (state) => {
+    return {
+        players: state.player.players
+    }
+}
 
-export default Players
+export default connect(mapStatetoProps)(Players)
