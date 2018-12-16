@@ -8,14 +8,7 @@ class Players extends Component {
     state ={
         players: []
     }
-    componentDidMount(){
-        axios.get('/api/players')
-            .then(res => {
-                this.setState({
-                    players: res.data
-                })
-            })
-    }
+
     render(){
         const { players } = this.state;
         console.log(players);
