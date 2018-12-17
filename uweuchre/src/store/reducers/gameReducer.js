@@ -1,7 +1,5 @@
 const initState = {
-    games: [
-        {id: 1, winner1: "Lisa", winner2: "winner2", loser1: "l1", loser2: "l2", sscore: 0, Date: null}
-    ]
+    games: []
 }
 
 const gameReducer = (state = initState, action) => {

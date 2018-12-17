@@ -14,6 +14,7 @@ class Games extends Component {
         })
     }
     render(){
+        const { auth } = this.props;
         if(!this.props.games){
             return <p></p>
         }
@@ -27,7 +28,8 @@ class Games extends Component {
         return(
             <div className="container">
                 <h4 className="center">Games</h4>
-                <AddGame addGame={this.addGame}/>
+                {auth.uid ? <AddGame addGame={this.addGame}/>: null}
+                
                 {gameList}
             </div>
         );
@@ -36,7 +38,7 @@ class Games extends Component {
 
 const mapStatetoProps = (state) => {
     return{
-        // games: state.game.games
+        auth: state.firebase.auth,
         games: state.firestore.ordered.games
     }
 }
