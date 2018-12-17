@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from "react-redux";
+import { createGame } from "../store/actions/gameActions";
 
 class AddGame extends Component {
     state = {
@@ -17,16 +18,7 @@ class AddGame extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
-        axios.post('/api/games', {
-            winner1: this.state.winner1,
-            winner2: this.state.winner2,
-            loser1: this.state.loser1,
-            loser2: this.state.loser2,
-            score: this.state.score,
-            date: this.state.date
-        })
-        this.props.addGame(this.state);
+        this.props.createGame(this.state);
     }
     render(){
         return(
@@ -47,4 +39,11 @@ class AddGame extends Component {
     }
 }
 
-export default AddGame
+const mapDispatchtoProps = (dispatch) => {
+    return {
+        // createGame: (game) => dispatch({type: "CREATE_GAME", game})
+        createGame: (game) => dispatch(createGame(game))
+    }
+}
+
+export default connect(null, mapDispatchtoProps)(AddGame);

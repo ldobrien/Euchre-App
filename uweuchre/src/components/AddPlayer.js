@@ -37,10 +37,11 @@ class AddPlayer extends Component {
         )
     }
 }
+
 const mapDispatchtoProps = (dispatch) => {
     return {
-        createPlayer: (player) => dispatch({type: "CREATE_PLAYER", player})
-        // createPlayer: (player) => dispatch(createPlayer(player))
+        // createPlayer: (player) => dispatch({type: "CREATE_PLAYER", player})
+        createPlayer: (player) => dispatch(createPlayer(player))
     }
 }
 

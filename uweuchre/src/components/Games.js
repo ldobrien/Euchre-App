@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import Game from './Game'
 import AddGame from './AddGame';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 class Games extends Component {
-    state ={
-        listofGames: []
-    }
     addGame = (game) => {
         let lst = this.state.listofGames;
         lst.push(game);
@@ -14,17 +13,11 @@ class Games extends Component {
             listofGames: lst
         })
     }
-    componentDidMount(){
-        axios.get('/api/games')
-            .then(res => {
-                this.setState({
-                    listofGames: res.data
-                })
-            })
-    }
     render(){
-        const gameList = this.state.listofGames.map(game => {
-            console.log(this.state.listofGames.length)
+        if(!this.props.games){
+            return <p></p>
+        }
+        const gameList = this.props.games.map(game => {
             return (
                 
                 <Game winner1={game.winner1} winner2={game.winner2}
@@ -41,4 +34,16 @@ class Games extends Component {
     }
 }
 
-export default Games
+const mapStatetoProps = (state) => {
+    return{
+        // games: state.game.games
+        games: state.firestore.ordered.games
+    }
+}
+
+export default compose(
+    connect(mapStatetoProps),
+    firestoreConnect([{
+        collection: 'games'
+    }])
+)(Games)

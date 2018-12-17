@@ -1,32 +1,38 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 class Player extends Component {
-    state={
-        Name:"",
-        Skill:""
-    }
-    componentDidMount(){
-    
-        let player_id= this.props.match.params.player_id
-        axios.get('/api/players/' + player_id)
-        .then(res => {
-            console.log("Player " + res.data.Name);
-            this.setState(
-                res.data
-            )
-        })
-    }
     render(){
+        const { player } = this.props;
+        if(!player){
+            return <p></p>
+        }
         return(
-            <div className="container post card pink" key={this.state.Name}>
-                <div className="card-content">
-                    <p className="card-title">Name: {this.state.Name}</p>
-                    <p className="player-skill">Skill: {this.state.Skill}</p>
+            <div className="container" key={this.props.match.params.id}>
+                <div className="post card pink">
+                    <div className="card-content">
+                        <p className="card-title">Name: {player.Name}</p>
+                        <p className="player-skill">Skill: {player.Skill}</p>
+                    </div>
                 </div>
             </div>
         )
     }
 }
-
-export default Player
+const mapStatetoProps = (state, ownProps) => {
+    const id = ownProps.match.params.player_id;
+    const players = state.firestore.data.players;
+    const player = players ? players[id] : null;
+    return{
+        player: player
+    }
+}
+export default compose(
+    connect(mapStatetoProps),
+    firestoreConnect([
+        { collection: 'players' }
+    ])
+)(Player)
