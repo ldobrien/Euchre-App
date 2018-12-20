@@ -10,13 +10,19 @@ class Game extends Component {
     render(){
         return(
             <div className="container">
-                <div className="game card pink">
-                    <p className="winners white-text">Winners</p>
-                    <p>{this.state.winners[0] + ', ' + this.state.winners[1]}</p>
-                    <p className="losers white-text">Losers</p>
-                    <p>{this.state.losers[0] + ', ' + this.state.losers[1] + ': ' + this.state.score}</p>
-                </div>
-            </div>
+				<div className="game card pink">
+					<div className="card-content">
+						<div className="winners-losers">
+							<p className="winners white-text"><span className="winners-text">Winners: </span>
+							{this.state.winners[0] + ', ' + this.state.winners[1]}</p>
+							<p className="losers white-text"><span className="losers-text">Losers: </span>
+							{this.state.losers[0] + ', ' + this.state.losers[1]}</p>
+						</div>
+						<p className="score white-text"><span className="score-text">Losers' score: </span>{this.state.score}</p>
+						
+					</div>
+				</div>
+			</div>
         )
     }
 }
