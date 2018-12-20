@@ -11,7 +11,7 @@ class AddPlayer extends Component {
         Skill:""
         // Submitted: 0
     }
-    submitted = 0;
+    // submitted = 0;
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.props.players[this.state.Name]){
@@ -21,7 +21,6 @@ class AddPlayer extends Component {
         } else {
             this.props.createPlayer(this.state);
         }
-        
     }
     handleChange = (e) =>{
         this.setState({
