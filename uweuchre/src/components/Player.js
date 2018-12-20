@@ -14,8 +14,8 @@ class Player extends Component {
             <div className="container" key={this.props.match.params.id}>
                 <div className="post card pink">
                     <div className="card-content">
-                        <p className="card-title">Name: {player.Name}</p>
-                        <p className="player-skill">Skill: {player.Skill}</p>
+                        <p className="card-title white-text">Name: {player.Name}</p>
+                        <p className="player-skill white-text">Skill: {player.Skill}</p>
                     </div>
                 </div>
             </div>

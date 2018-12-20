@@ -20,8 +20,8 @@ class Players extends Component {
                 <div className="post card pink" key={player.id}>
                     <div className="card-content">
                     <Link to={ '/players/' + player.id}>
-                        <span className="card-title">{player.Name}</span>
-                        <p>{player.Skill}</p>
+                        <p className="card-title white-text">{player.Name}</p>
+                        <p className="white-text">{player.Skill}</p>
                     </Link>
                     </div>
                 </div>
