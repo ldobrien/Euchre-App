@@ -22,6 +22,7 @@ class AddGame extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        var score = Number(this.state.score);
         console.log(this.props.playerNames)
         if(this.props.players[this.state.winner1] && 
         this.props.players[this.state.loser1] &&
@@ -37,6 +38,17 @@ class AddGame extends Component {
         } else {
             this.setState({
                 error: "At least one of the players is not valid"
+            })
+        }
+        if(!((score < 10) && score >=0)){
+            this.setState({
+                error: "Score is invalid"
+            })
+        }
+        else if(!(Number.isInteger(score))){
+            console.log(this.state.score);
+            this.setState({
+                error: "Score is not an Integer"
             })
         }
         
