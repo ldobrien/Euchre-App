@@ -6,6 +6,8 @@ class PlayerStats extends Component {
     render(){
         var plus = 0;
         var totalPoints = 0;
+        var skunks = 0;
+        var timesskunked = 0;
         const {playerGames, playerName} = this.props;
         const win = playerGames == null ? null : playerGames.filter(game => {
             return game.winner1 === playerName || game.winner2 === playerName;
@@ -17,10 +19,12 @@ class PlayerStats extends Component {
         var temp = win == null ? 0 : win.forEach(function(game) {
             plus += 10 - game.score;
             totalPoints += 10;
+            skunks += Number(game.score) === 0 ? 1 : 0;
         });
         temp = loss == null ? 0 : loss.forEach(function(game) {
             plus += game.score - 10;
             totalPoints += Number(game.score);
+            timesskunked += Number(game.score) === 0 ? 1 : 0;
         });
 
         var wins = win == null ? 0 : win.length;
@@ -35,9 +39,12 @@ class PlayerStats extends Component {
                 <p> Wins: {wins}</p>
                 <p> Losses: {losses}</p>
                 <p> Total Games: {totalGames}</p>
-                <p> Win Loss Percentage: {winLoss}%</p>
+                <p> Win Loss Percentage: {Math.round(winLoss * 100) / 100}%</p>
                 {plusMinus}
-                <p> Cumulative Average: {average}</p>
+                <p> Cumulative Average: {Math.round(average * 100) / 100}</p>
+                <br></br>
+                <p> Skunks: {skunks}</p>
+                <p> Times Skunked: {timesskunked}</p>
             </div>
         )
     }
