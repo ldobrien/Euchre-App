@@ -29,7 +29,6 @@ class Player extends Component {
                     <div className="card-content">
                         <p className="card-title white-text">Name: {player.Name}</p>
                         <p className="player-skill white-text">Rank: {player.Skill}</p>
-                        {console.log(allGames)}
                         <PlayerStats playerGames={allGames} playerName={player.Name}/>
                     </div>
                 </div>
@@ -38,7 +37,6 @@ class Player extends Component {
     }
 }
 const mapStatetoProps = (state, ownProps) => {
-    console.log(state.firestore.ordered.games);
     const id = ownProps.match.params.player_id;
     const players = state.firestore.data.players;
     const player = players ? players[id] : null;
