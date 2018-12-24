@@ -5,17 +5,18 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import AddPlayer from "./AddPlayer";
 
 class Players extends Component {
 
     render(){
-        const { players } = this.props;
+        
+        const { players, auth } = this.props;
         if(!players){
             return <p></p>
         }
-        // console.log(players);
         const playerList = Object.values(players).map(player => {
-            console.log(player.id)
+            // console.log(player.id)
             return (
                 <div className="post card pink" key={player.id}>
                     <div className="card-content">
@@ -29,6 +30,7 @@ class Players extends Component {
         })
         return(
             <div className="container">
+            {auth.uid ? <AddPlayer/>: null}
                 <h4 className="center">Players</h4>
                 {playerList}
             </div>
@@ -38,7 +40,8 @@ class Players extends Component {
 
 const mapStatetoProps = (state) => {
     return {
-        players: state.firestore.ordered.players
+        players: state.firestore.ordered.players,
+        auth: state.firebase.auth
     }
 }
 

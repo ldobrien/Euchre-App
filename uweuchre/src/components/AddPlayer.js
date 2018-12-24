@@ -79,4 +79,4 @@ export default compose(
     firestoreConnect([
         { collection: 'players' }
     ]))
-(AddPlayer)
+(AddPlayer);
