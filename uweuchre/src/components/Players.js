@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-// import Player from './Player';
-// import AddPlayer from './AddPlayer';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
@@ -15,14 +13,17 @@ class Players extends Component {
         if(!players){
             return <p></p>
         }
+        
         const playerList = Object.values(players).map(player => {
-            // console.log(player.id)
+            console.log(player.id)
+            console.log(player.Skill)
+            const rank = player.Skill === "-" ? null : <p className="white-text">Rank: {player.Skill}</p>;
             return (
                 <div className="post card pink" key={player.id}>
                     <div className="card-content">
                     <Link to={ '/players/' + player.id}>
                         <p className="card-title white-text">{player.Name}</p>
-                        <p className="white-text">{player.Skill}</p>
+                        {rank}
                     </Link>
                     </div>
                 </div>
@@ -51,4 +52,3 @@ export default compose(
         { collection: 'players' }
     ])
 )(Players)
-// export default connect(mapStatetoProps)(Players)

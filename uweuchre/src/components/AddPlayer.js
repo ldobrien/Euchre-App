@@ -8,7 +8,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 class AddPlayer extends Component {
     state = {
         Name:"",
-        Skill:"",
+        Skill:"-",
         error: null,
         success: null
     }
@@ -44,7 +44,7 @@ class AddPlayer extends Component {
             
             <div className="container">
             
-            <h1>Add Player</h1>
+            <h4 className="center">Add Player</h4>
                 <form onSubmit={this.handleSubmit}>
                     <label>Add New Player</label>
                     <input type="text" onChange={this.handleChange} name="Name" placeholder="Name"/>
@@ -78,5 +78,4 @@ export default compose(
     connect(mapStatetoProps, mapDispatchtoProps),
     firestoreConnect([
         { collection: 'players' }
-    ]))
-(AddPlayer);
+    ]))(AddPlayer);

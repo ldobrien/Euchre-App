@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { createGame } from "../store/actions/gameActions";
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
+import AutoCompleteText from './AutoCompleteText';
 
 class AddGame extends Component {
     state = {
@@ -23,12 +24,15 @@ class AddGame extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         var score = Number(this.state.score);
-        console.log(this.props.playerNames)
-        if(this.props.players[this.state.winner1] && 
-        this.props.players[this.state.loser1] &&
-        this.props.players[this.state.winner2] &&
-        this.props.players[this.state.loser2]){
-            if(new Set([this.state.winner1, this.state.winner2, this.state.loser1, this.state.loser2]).size === 4){
+        var l1 = this.state.loser1;
+        var l2 = this.state.loser2;
+        var w1 = this.state.winner1;
+        var w2 = this.state.winner2;
+        if(this.props.players[w1] && 
+            this.props.players[l1] &&
+            this.props.players[w2] &&
+            this.props.players[l2]){
+            if(new Set([w1, w2, l1, l2]).size === 4){
                 this.props.createGame(this.state);
             } else{
                 this.setState({
@@ -46,7 +50,6 @@ class AddGame extends Component {
             })
         }
         else if(!(Number.isInteger(score))){
-            console.log(this.state.score);
             this.setState({
                 error: "Score is not an Integer"
             })
@@ -55,7 +58,6 @@ class AddGame extends Component {
     }
 
     render(){
-        const { auth } = this.props;
         return(
             <div className="container">
                 <form onSubmit={ this.handleSubmit }>
@@ -63,7 +65,8 @@ class AddGame extends Component {
                     {this.state.error ? <p>{this.state.error}</p> : null}
                 </div>  
                     <label>Winner</label>
-                    <input type="text" name="winner1" placeholder="Winner" onChange={ this.handleChange} />
+                    <AutoCompleteText />
+                    {/* <input type="text" name="winner1" placeholder="Winner" onChange={ this.handleChange} /> */}
                     {/* {this.props.playerNames.includes(this.state.winner1) ? null : <p>NOT A PLAYER</p>} */}
                     <input type="text" name="winner2" placeholder="Winner" onChange={ this.handleChange} />
                     <label>Loser</label>
@@ -78,7 +81,6 @@ class AddGame extends Component {
     }
 }
 const mapStatetoProps = (state) => {
-    // console.log(state.firestore.data.players)
     return{
         players: state.firestore.data.players
     }

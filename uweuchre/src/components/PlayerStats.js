@@ -31,7 +31,7 @@ class PlayerStats extends Component {
         var losses = loss == null ? 0 : loss.length;
         var totalGames = wins != null || losses != null ? wins + losses : 0;
         var winLoss = totalGames != 0 ? wins * 100 / totalGames : 0;
-        const plusMinus = plus > 0 ? <p>Plus-Minus: +{plus}</p> : <p>Plus-Minus: {plus}</p>
+        const plusMinus = plus > 0 ? <span>+{plus}</span> : <span>{plus}</span>
         var average = totalGames != 0 ? totalPoints / totalGames : 0;
         return(
             <div className="player-skill white-text">
@@ -40,7 +40,7 @@ class PlayerStats extends Component {
                 <p> Losses: {losses}</p>
                 <p> Total Games: {totalGames}</p>
                 <p> Win Loss Percentage: {Math.round(winLoss * 100) / 100}%</p>
-                {plusMinus}
+                <p>Plus-Minus: {plusMinus}</p>
                 <p> Cumulative Average: {Math.round(average * 100) / 100}</p>
                 <br></br>
                 <p> Skunks: {skunks}</p>

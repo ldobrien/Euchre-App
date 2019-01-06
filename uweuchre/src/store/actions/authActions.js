@@ -34,7 +34,6 @@ export const addAccount = (newUser) => {
         )
         .then(()=> {
             dispatch({ type: "SIGNUP_SUCCESS"})
-            // alert(newUser.username + " Successfully Added")
         })
         .catch((err) => {
             dispatch({ type: "SIGNUP_ERROR", err})

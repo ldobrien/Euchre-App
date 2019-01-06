@@ -31,7 +31,6 @@ class AddAccount extends Component {
 
     render(){
         const { auth, authError } = this.props;
-        var response = null;
         if(!auth.uid){
             return <Redirect to="/signin"/>
         }
