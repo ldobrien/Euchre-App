@@ -41,24 +41,32 @@ class AddGame extends Component {
             this.props.players[w2] &&
             this.props.players[l2]){
             if(new Set([w1, w2, l1, l2]).size === 4){
+                this.setState({
+                    success: "Game Added",
+                    error: null
+                })
                 this.props.createGame(this.state);
             } else{
                 this.setState({
+                    success: null,
                     error: "Players are not unique - no playing with yourself ;)"
                 })
             }
         } else {
             this.setState({
+                success: null,
                 error: "At least one of the players is not valid"
             })
         }
         if(!((score < 10) && score >=0)){
             this.setState({
+                success: null,
                 error: "Score is invalid"
             })
         }
         else if(!(Number.isInteger(score))){
             this.setState({
+                success: null,
                 error: "Score is not an Integer"
             })
         }
@@ -72,6 +80,9 @@ class AddGame extends Component {
                 <form onSubmit={ this.handleSubmit }>
                 <div className="red-text center">
                     {this.state.error ? <p>{this.state.error}</p> : null}
+                </div>  
+                <div className="black-text center">
+                    {this.state.success ? <p>{this.state.success}</p> : null}
                 </div>  
                     <label>Winner</label>
                     <AutoCompleteText 
@@ -99,8 +110,8 @@ class AddGame extends Component {
                         placeholder="Loser"
                         onChange={ this.handleChange } 
                         suggestionSelected={this.suggestionSelected}/>
-                    <label>Score</label>
-                    <input type="text" name="score" placeholder="Loser's Score" onChange={ this.handleChange} />
+                    <label >Score</label>
+                    <input type="text" name="score" autoComplete="off" placeholder="Loser's Score" onChange={ this.handleChange} />
                     <button type="submit"> Add </button>
                 </form>
             </div>
