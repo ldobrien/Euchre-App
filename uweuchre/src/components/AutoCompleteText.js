@@ -4,12 +4,7 @@ class AutoCompleteText extends Component {
 
     state = {
         suggestions: [],
-        items: [
-            "Suzie",
-            "SSamm",
-            "Lisa",
-            "Bill"
-        ],
+        // items: this.props.input,
         text: ''
     }
 
@@ -17,15 +12,16 @@ class AutoCompleteText extends Component {
         const value = e.target.value;
         let suggestions = [];
 
-        if(value.length > 0){
+        if(value.length > 0 && this.props.input != null){
             const regex = new RegExp(`^${value}`, 'i');
-            suggestions = this.state.items.sort().filter(x => regex.test(x));
+            suggestions = this.props.input.sort().filter(x => regex.test(x));
             
         }
         this.setState(() => ({
             suggestions,
             text: value
         }));
+        this.props.onChange(e);
     }
 
     suggestionSelected(value){
@@ -33,6 +29,7 @@ class AutoCompleteText extends Component {
             text: value,
             suggestions: []
         }))
+        this.props.suggestionSelected(this.props.name, value)
     }
 
     renderSuggestions() {
@@ -42,7 +39,7 @@ class AutoCompleteText extends Component {
         }
         return(
             <ul>
-                {suggestions.map((item) => <li onClick={() => this.suggestionSelected(item)}>{item}</li>)}
+                {suggestions.map((item) => <li key={item} onClick={() => this.suggestionSelected(item)}>{item}</li>)}
             </ul>
         );
     }
@@ -51,7 +48,13 @@ class AutoCompleteText extends Component {
         const {text} = this.state;
         return(
             <div>
-                <input type="text" autoComplete="off" value={text} name="winner1" placeholder="Winner" onChange={ this.handleChange} />
+                <input 
+                    type="text" 
+                    autoComplete="off" 
+                    value={text} 
+                    name={ this.props.name } 
+                    placeholder={ this.props.placeholder } 
+                    onChange={ this.handleChange }/>
                 {this.renderSuggestions()}
             </div>
         )

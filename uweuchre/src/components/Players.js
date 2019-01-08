@@ -15,8 +15,9 @@ class Players extends Component {
         }
         
         const playerList = Object.values(players).map(player => {
-            console.log(player.id)
-            console.log(player.Skill)
+            // console.log(player.id)
+            // console.log(player.Skill)
+            // const rankCalc = 
             const rank = player.Skill === "-" ? null : <p className="white-text">Rank: {player.Skill}</p>;
             return (
                 <div className="post card pink" key={player.id}>

@@ -16,8 +16,16 @@ class AddGame extends Component {
     }
 
     handleChange = (e) => {
+        if(e != null){
+            this.setState({
+                [e.target.name]: e.target.value
+            });
+        }
+    }
+
+    suggestionSelected = (name, value) => {
         this.setState({
-            [e.target.name]: e.target.value
+            [name]: value
         });
     }
 
@@ -58,6 +66,7 @@ class AddGame extends Component {
     }
 
     render(){
+        const players = this.props.players == null ? null : Object.keys(this.props.players);
         return(
             <div className="container">
                 <form onSubmit={ this.handleSubmit }>
@@ -65,13 +74,31 @@ class AddGame extends Component {
                     {this.state.error ? <p>{this.state.error}</p> : null}
                 </div>  
                     <label>Winner</label>
-                    <AutoCompleteText />
-                    {/* <input type="text" name="winner1" placeholder="Winner" onChange={ this.handleChange} /> */}
-                    {/* {this.props.playerNames.includes(this.state.winner1) ? null : <p>NOT A PLAYER</p>} */}
-                    <input type="text" name="winner2" placeholder="Winner" onChange={ this.handleChange} />
+                    <AutoCompleteText 
+                        input={players} 
+                        name="winner1"
+                        placeholder="Winner"
+                        onChange={ this.handleChange } 
+                        suggestionSelected={this.suggestionSelected}/>
+                    <AutoCompleteText 
+                        input={players} 
+                        name="winner2"
+                        placeholder="Winner"
+                        onChange={ this.handleChange } 
+                        suggestionSelected={this.suggestionSelected}/>
                     <label>Loser</label>
-                    <input type="text" name="loser1" placeholder="Loser" onChange={ this.handleChange} />
-                    <input type="text" name="loser2" placeholder="Loser" onChange={ this.handleChange} />
+                    <AutoCompleteText 
+                        input={players} 
+                        name="loser1"
+                        placeholder="Loser"
+                        onChange={ this.handleChange } 
+                        suggestionSelected={this.suggestionSelected}/>
+                    <AutoCompleteText 
+                        input={players} 
+                        name="loser2"
+                        placeholder="Loser"
+                        onChange={ this.handleChange } 
+                        suggestionSelected={this.suggestionSelected}/>
                     <label>Score</label>
                     <input type="text" name="score" placeholder="Loser's Score" onChange={ this.handleChange} />
                     <button type="submit"> Add </button>
@@ -80,6 +107,7 @@ class AddGame extends Component {
         );
     }
 }
+
 const mapStatetoProps = (state) => {
     return{
         players: state.firestore.data.players
