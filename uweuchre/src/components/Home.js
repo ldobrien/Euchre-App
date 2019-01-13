@@ -6,6 +6,7 @@ const Home = () => {
         <div className="container">
             <h4 className="center">Home</h4>
             <img src={Euchre} alt="Euchre"/>
+            <p className="center pink">Created by JK and LO</p>
         </div>
     );
 }

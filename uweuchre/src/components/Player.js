@@ -4,12 +4,15 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import PlayerStats from './PlayerStats';
+import { addPlayerWeight } from "../store/actions/playerActions";
 
 class Player extends Component {
+    saveWeight(props, weight){
+        const a = this.props ? this.props.addPlayerWeight(this.props.player.Name, weight) : null;
+    }
+
     render(){
         const { player, allGames } = this.props;
-        // console.log("ALL GAMES: ");
-        // console.log(allGames)
         const playersGames = allGames != null && player != null ? allGames.filter(function (game){
             var x = game.winner1 === player.Name ||
             game.winner2 === player.Name ||
@@ -17,7 +20,7 @@ class Player extends Component {
             game.loser2 === player.Name;
             return x;
         }): null;
-        // console.log(playersGames);
+
         if(!player){
             return <p></p>
         }
@@ -29,7 +32,11 @@ class Player extends Component {
                     <div className="card-content">
                         <p className="card-title white-text">Name: {player.Name}</p>
                         <p className="player-skill white-text">Rank: {player.Skill}</p>
-                        <PlayerStats playerGames={allGames} playerName={player.Name}/>
+                        <PlayerStats 
+                            playerGames={allGames} 
+                            playerName={player.Name} 
+                            saveWeight={this.saveWeight}
+                            props={this.props}/>
                     </div>
                 </div>
             </div>
@@ -47,8 +54,13 @@ const mapStatetoProps = (state, ownProps) => {
         allGames: allGames
     }
 }
+const mapDispatchtoProps = (dispatch) => {
+    return {
+        addPlayerWeight: (playerName, weight) => dispatch(addPlayerWeight(playerName, weight))
+    }
+}
 export default compose(
-    connect(mapStatetoProps),
+    connect(mapStatetoProps, mapDispatchtoProps),
     firestoreConnect([
         { collection: 'players' },
         { collection: 'games' }

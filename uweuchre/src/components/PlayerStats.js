@@ -33,6 +33,9 @@ class PlayerStats extends Component {
         var winLoss = totalGames != 0 ? wins * 100 / totalGames : 0;
         const plusMinus = plus > 0 ? <span>+{plus}</span> : <span>{plus}</span>
         var average = totalGames != 0 ? totalPoints / totalGames : 0;
+        const weight = totalGames > 14 ? winLoss * .002 + average * .08 : 0;
+
+        this.props.saveWeight(this.props, weight);
         return(
             <div className="player-skill white-text">
             <br></br>

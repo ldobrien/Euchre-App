@@ -9,6 +9,7 @@ class AddPlayer extends Component {
     state = {
         Name:"",
         Skill:"-",
+        weight: 0,
         error: null,
         success: null
     }

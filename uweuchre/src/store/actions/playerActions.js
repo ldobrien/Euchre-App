@@ -12,3 +12,19 @@ export const createPlayer = (player) => {
         })
     }
 }
+
+export const addPlayerWeight = (playerName, weight) => {
+    return (dispatch, getState, {getFirebase, getFirestore }) => {
+        // make async call to database
+        const firestore = getFirestore();
+        firestore.collection("players").doc(playerName).update({
+            weight: weight
+        })
+        .then(() => {
+            dispatch({type: 'ADD_WEIGHT', weight})
+        })
+        .catch((err) => {
+            dispatch({type: "ADD_WEIGHT_ERROR", err })
+        })
+    }
+}

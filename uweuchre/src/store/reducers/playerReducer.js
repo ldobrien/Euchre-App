@@ -9,9 +9,13 @@ const playerReducer = (state = initState, action) => {
                 ...state,
                 players: [...state.players, action.player]
             }
+        case "ADD_WEIGHT":
+            return {
+                ...state,
+                players: [...state.players, action.playerName, action.weight]
+            }
         default:
             return state;
     }
 }
-
 export default playerReducer;

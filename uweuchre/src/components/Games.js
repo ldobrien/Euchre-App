@@ -20,7 +20,6 @@ class Games extends Component {
         }
         const gameList = this.props.games.map(game => {
             return (
-                
                 <Game winner1={game.winner1} winner2={game.winner2}
                 loser1={game.loser1} loser2={game.loser2} score={game.score} key={Math.random()} />
             )
