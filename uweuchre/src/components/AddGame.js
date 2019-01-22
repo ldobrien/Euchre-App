@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createGame } from "../store/actions/gameActions";
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
-import AutoCompleteText from './AutoCompleteText';
+import "../AutocompleteText.css"
 
 class AddGame extends Component {
     state = {
@@ -12,21 +12,53 @@ class AddGame extends Component {
         loser1: "",
         loser2: "",
         score: null,
-        date: new Date()
+        date: new Date(),
+        suggestions: {
+            winner1: [],
+            winner2: [],
+            loser1: [],
+            loser2: []
+        }
     }
 
     handleChange = (e) => {
         if(e != null){
-            this.setState({
-                [e.target.name]: e.target.value
-            });
+            const name = e.target.name
+            const value = e.target.value;
+            const players = Object.keys(this.props.players);
+            let suggestions = [];
+            if(value.length > 0 && players != null){
+                const regex = new RegExp(`^${value}`, 'i');
+                suggestions = players.sort().filter(x => regex.test(x));
+            }
+            this.setState(() => ({
+                [name]: value,
+                suggestions:{
+                    [name]: suggestions
+                },
+            }));
         }
     }
 
-    suggestionSelected = (name, value) => {
-        this.setState({
+    suggestionSelected(name, value){
+        this.setState(()=>({
+            suggestions:{
+                [name]: []
+            },
             [name]: value
-        });
+        }))
+    }
+
+    renderSuggestions(name) {
+        const suggestions = this.state.suggestions[name];
+        if(suggestions == null || suggestions.length === 0){
+            return null;
+        }
+        return(
+            <ul className="AutoCompleteText" >
+                {suggestions.map((item) => <li key={item} onClick={() => this.suggestionSelected(name, item)}>{item}</li>)}
+            </ul>
+        );
     }
 
     handleSubmit = (e) => {
@@ -42,14 +74,18 @@ class AddGame extends Component {
                 this.setState({
                     success: "Game Added",
                     error: null,
-                    winner1: ''
+                    winner1: '',
+                    winner2: '',
+                    loser1: '',
+                    loser2: '',
+                    score: null
                 })
                 window.alert("Game Added")
-                // document.getElementById("form").reset();
+                document.getElementById("form").reset();
             }
 
 
-        else if(this.props.players[w1] && 
+        if(this.props.players[w1] && 
             this.props.players[l1] &&
             this.props.players[w2] &&
             this.props.players[l2])
@@ -58,9 +94,15 @@ class AddGame extends Component {
                 this.setState({
                     success: "Game Added",
                     error: null,
+                    winner1: '',
+                    winner2: '',
+                    loser1: '',
+                    loser2: '',
+                    score: null
                 })
                 this.props.createGame(this.state);
                 window.alert("Game added")
+                document.getElementById("form").reset();
             } else{
                 this.setState({
                     success: null,
@@ -85,11 +127,10 @@ class AddGame extends Component {
                 error: "Score is not an Integer"
             })
         }
-        
+    
     }
 
     render(){
-        // console.log(this.state.success)
         const players = this.props.players == null ? null : Object.keys(this.props.players);
         return(
             <div className="container">
@@ -101,32 +142,46 @@ class AddGame extends Component {
                     {this.state.success ? <p>{this.state.success}</p> : null}
                 </div>  
                     <label>Winner</label>
-                    <AutoCompleteText 
+                    <input
+                        type="text"
+                        autoComplete="off" 
                         input={players} 
                         name="winner1"
                         placeholder="Winner"
                         onChange={ this.handleChange } 
-                        suggestionSelected={this.suggestionSelected}
-                        text=""/>
-                    <AutoCompleteText 
+                        // suggestionSelected={this.suggestionSelected}
+                        value={this.state.winner1} />
+                        {this.renderSuggestions("winner1")}
+                    <input
+                        type="text"
+                        autoComplete="off" 
                         input={players} 
                         name="winner2"
                         placeholder="Winner"
                         onChange={ this.handleChange } 
-                        suggestionSelected={this.suggestionSelected}/>
-                    <label>Loser</label>
-                    <AutoCompleteText 
+                        // suggestionSelected={this.suggestionSelected}
+                        value={this.state.winner2} />
+                        {this.renderSuggestions("winner2")}
+                    <input
+                        type="text"
+                        autoComplete="off" 
                         input={players} 
                         name="loser1"
                         placeholder="Loser"
                         onChange={ this.handleChange } 
-                        suggestionSelected={this.suggestionSelected}/>
-                    <AutoCompleteText 
+                        // suggestionSelected={this.suggestionSelected}
+                        value={this.state.loser1} />
+                        {this.renderSuggestions("loser1")}
+                    <input
+                        type="text"
+                        autoComplete="off" 
                         input={players} 
                         name="loser2"
                         placeholder="Loser"
                         onChange={ this.handleChange } 
-                        suggestionSelected={this.suggestionSelected}/>
+                        // suggestionSelected={this.suggestionSelected}
+                        value={this.state.loser2} />
+                        {this.renderSuggestions("loser2")}
                     <label >Score</label>
                     <input type="text" name="score" autoComplete="off" placeholder="Loser's Score" onChange={ this.handleChange} />
                     <button type="submit"> Add </button>
