@@ -7,6 +7,7 @@ import { compose } from 'redux';
 
 class Games extends Component {
     addGame = (game) => {
+        // console.log("HERE")
         let lst = this.state.listofGames;
         lst.push(game);
         this.setState({
@@ -19,10 +20,14 @@ class Games extends Component {
             return <p></p>
         }
         const gameList = this.props.games.map(game => {
+            // console.log(game.date.toDate())
             return (
                 <Game winner1={game.winner1} winner2={game.winner2}
-                loser1={game.loser1} loser2={game.loser2} score={game.score} key={Math.random()} />
+                loser1={game.loser1} loser2={game.loser2} score={game.score} date={game.date} key={Math.random()} />
             )
+        })
+        gameList.sort(function(a,b){
+            return  b.props.date.toDate() - a.props.date.toDate()
         })
         return(
             <div className="container">
@@ -36,6 +41,7 @@ class Games extends Component {
 }
 
 const mapStatetoProps = (state) => {
+    // console.log(state.firestore.o)
     return{
         auth: state.firebase.auth,
         games: state.firestore.ordered.games

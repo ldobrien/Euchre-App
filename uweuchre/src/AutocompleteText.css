@@ -1,0 +1,10 @@
+.AutoCompleteText{
+    width: 100%;
+    border: 1px solid #e91e63;
+    border-top-style: none;
+}
+
+.AutoCompleteText input {
+    width: 100%;
+    border: none;
+}

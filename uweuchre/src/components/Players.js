@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import AddPlayer from "./AddPlayer";
-import Player from "./Player"
+// import Player from "./Player"
 
 class Players extends Component {
 

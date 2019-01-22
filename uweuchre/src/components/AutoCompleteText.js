@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import "../AutocompleteText.css"
 
 class AutoCompleteText extends Component {
 
     state = {
         suggestions: [],
         // items: this.props.input,
-        text: ''
+        text: this.props.text,
     }
 
     handleChange = (e) => {
@@ -38,17 +39,19 @@ class AutoCompleteText extends Component {
             return null;
         }
         return(
-            <ul>
+            <ul className="AutoCompleteText">
                 {suggestions.map((item) => <li key={item} onClick={() => this.suggestionSelected(item)}>{item}</li>)}
             </ul>
         );
     }
 
     render(){
+        // console.log(this.state.text)
         const {text} = this.state;
         return(
-            <div>
-                <input 
+            <div >
+                {this.state.success != null ? this.clearform() : null}
+                <input
                     type="text" 
                     autoComplete="off" 
                     value={text} 

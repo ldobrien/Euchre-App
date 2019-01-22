@@ -36,16 +36,31 @@ class AddGame extends Component {
         var l2 = this.state.loser2;
         var w1 = this.state.winner1;
         var w2 = this.state.winner2;
-        if(this.props.players[w1] && 
+
+        // for testing
+        if(w2 == "d1" && w1 == "d1" && l1 == "d1" && l2 == "d1"){
+                this.setState({
+                    success: "Game Added",
+                    error: null,
+                    winner1: ''
+                })
+                window.alert("Game Added")
+                // document.getElementById("form").reset();
+            }
+
+
+        else if(this.props.players[w1] && 
             this.props.players[l1] &&
             this.props.players[w2] &&
-            this.props.players[l2]){
+            this.props.players[l2])
+            {
             if(new Set([w1, w2, l1, l2]).size === 4){
                 this.setState({
                     success: "Game Added",
-                    error: null
+                    error: null,
                 })
                 this.props.createGame(this.state);
+                window.alert("Game added")
             } else{
                 this.setState({
                     success: null,
@@ -74,10 +89,11 @@ class AddGame extends Component {
     }
 
     render(){
+        // console.log(this.state.success)
         const players = this.props.players == null ? null : Object.keys(this.props.players);
         return(
             <div className="container">
-                <form onSubmit={ this.handleSubmit }>
+                <form id="form" onSubmit={ this.handleSubmit }>
                 <div className="red-text center">
                     {this.state.error ? <p>{this.state.error}</p> : null}
                 </div>  
@@ -90,7 +106,8 @@ class AddGame extends Component {
                         name="winner1"
                         placeholder="Winner"
                         onChange={ this.handleChange } 
-                        suggestionSelected={this.suggestionSelected}/>
+                        suggestionSelected={this.suggestionSelected}
+                        text=""/>
                     <AutoCompleteText 
                         input={players} 
                         name="winner2"
