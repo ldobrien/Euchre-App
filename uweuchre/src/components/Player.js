@@ -31,7 +31,7 @@ class Player extends Component {
                 <div className="post card pink">
                     <div className="card-content">
                         <p className="card-title white-text">Name: {player.Name}</p>
-                        <p className="player-skill white-text">Rank: {player.Skill}</p>
+                        <p className="player-skill white-text">Rank: {player.rank}</p>
                         <PlayerStats 
                             playerGames={allGames} 
                             playerName={player.Name} 

@@ -35,7 +35,6 @@ class PlayerStats extends Component {
         var average = totalGames != 0 ? totalPoints / totalGames : 0;
         const weight = totalGames > 14 ? winLoss * .002 + average * .08 : 0;
 
-        this.props.saveWeight(this.props, weight);
         return(
             <div className="player-skill white-text">
             <br></br>
@@ -45,6 +44,7 @@ class PlayerStats extends Component {
                 <p> Win Loss Percentage: {Math.round(winLoss * 100) / 100}%</p>
                 <p>Plus-Minus: {plusMinus}</p>
                 <p> Cumulative Average: {Math.round(average * 100) / 100}</p>
+                <p> Weight: {weight}</p>
                 <br></br>
                 <p> Skunks: {skunks}</p>
                 <p> Times Skunked: {timesskunked}</p>
