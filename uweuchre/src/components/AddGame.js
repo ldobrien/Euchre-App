@@ -11,7 +11,7 @@ class AddGame extends Component {
         winner2: "",
         loser1: "",
         loser2: "",
-        score: null,
+        score: -1,
         date: new Date(),
         suggestions: {
             winner1: [],
@@ -70,51 +70,20 @@ class AddGame extends Component {
         var w2 = this.state.winner2;
 
         // for testing
-        if(w2 == "d1" && w1 == "d1" && l1 == "d1" && l2 == "d1"){
-                this.setState({
-                    success: "Game Added",
-                    error: null,
-                    winner1: '',
-                    winner2: '',
-                    loser1: '',
-                    loser2: '',
-                    score: null
-                })
-                window.alert("Game Added")
-                document.getElementById("form").reset();
-            }
+        // if(w2 == "d1" && w1 == "d1" && l1 == "d1" && l2 == "d1"){
+        //         this.setState({
+        //             success: "Game Added",
+        //             error: null,
+        //             winner1: '',
+        //             winner2: '',
+        //             loser1: '',
+        //             loser2: '',
+        //             score: null
+        //         })
+        //         window.alert("Game Added")
+        //         document.getElementById("form").reset();
+        //     }
 
-
-        if(this.props.players[w1] && 
-            this.props.players[l1] &&
-            this.props.players[w2] &&
-            this.props.players[l2])
-            {
-            if(new Set([w1, w2, l1, l2]).size === 4){
-                this.setState({
-                    success: "Game Added",
-                    error: null,
-                    winner1: '',
-                    winner2: '',
-                    loser1: '',
-                    loser2: '',
-                    score: null
-                })
-                this.props.createGame(this.state);
-                window.alert("Game added")
-                document.getElementById("form").reset();
-            } else{
-                this.setState({
-                    success: null,
-                    error: "Players are not unique - no playing with yourself ;)"
-                })
-            }
-        } else {
-            this.setState({
-                success: null,
-                error: "At least one of the players is not valid"
-            })
-        }
         if(!((score < 10) && score >=0)){
             this.setState({
                 success: null,
@@ -125,6 +94,37 @@ class AddGame extends Component {
             this.setState({
                 success: null,
                 error: "Score is not an Integer"
+            })
+        }
+        else if(this.props.players[w1] && 
+            this.props.players[l1] &&
+            this.props.players[w2] &&
+            this.props.players[l2])
+            {
+            if(new Set([w1, w2, l1, l2]).size === 4){
+                this.props.createGame(this.state);
+                document.getElementById("form").reset();
+                this.setState({
+                    success: "Game Added",
+                    error: null,
+                    winner1: '',
+                    winner2: '',
+                    loser1: '',
+                    loser2: '',
+                    score: -1
+                })
+                window.alert("Game added")
+                
+            } else{
+                this.setState({
+                    success: null,
+                    error: "Players are not unique - no playing with yourself ;)"
+                })
+            }
+        } else {
+            this.setState({
+                success: null,
+                error: "At least one of the players is not valid"
             })
         }
     
