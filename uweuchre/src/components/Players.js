@@ -19,7 +19,6 @@ class Players extends Component {
     }
     componentWillMount(){
         this.addWeights();
-        this.addRanks();
     }
     addWeights = async () => {
         const { players, auth, games } = this.props;
@@ -77,6 +76,7 @@ class Players extends Component {
     }
     
     render(){
+        this.addRanks();
         const { players, auth, games } = this.props;
         if(!players){
             return <p></p>
