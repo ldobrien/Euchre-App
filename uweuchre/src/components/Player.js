@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-// import axios from 'axios';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import PlayerStats from './PlayerStats';
 import { addPlayerWeight } from "../store/actions/playerActions";
+import Game from './Game'
 
 class Player extends Component {
     saveWeight(props, weight){
@@ -20,24 +20,40 @@ class Player extends Component {
             game.loser2 === player.Name;
             return x;
         }): null;
-
+        // console.log(playersGames)
         if(!player){
             return <p></p>
         }
+
+        const gameList = playersGames == null ? null : playersGames.map(game => {
+            return (
+                <Game winner1={game.winner1} winner2={game.winner2}
+                loser1={game.loser1} loser2={game.loser2} score={game.score} date={game.date} key={Math.random()} />
+            )
+        })
+
         return(
-            
-            <div className="container" key={this.props.match.params.id}>
-            
-                <div className="post card pink">
-                    <div className="card-content">
-                        <p className="card-title white-text">Name: {player.Name}</p>
-                        <p className="player-skill white-text">Rank: {player.rank}</p>
-                        <PlayerStats 
-                            playerGames={allGames} 
-                            playerName={player.Name} 
-                            saveWeight={this.saveWeight}
-                            props={this.props}/>
+            <div>
+                <div className="container" key={this.props.match.params.id}>
+                    <div className="container">
+                        <div className="card-content">
+                            <div className="post card pink">
+                                <div className="card-content">
+                                    <p className="card-title white-text">Name: {player.Name}</p>
+                                    <p className="player-skill white-text">Rank: {player.rank}</p>
+                                    <PlayerStats 
+                                        playerGames={allGames} 
+                                        playerName={player.Name} 
+                                        saveWeight={this.saveWeight}
+                                        props={this.props}/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div className="container">
+                    <h4 className="center">Games</h4>
+                    {gameList}
                 </div>
             </div>
         )
