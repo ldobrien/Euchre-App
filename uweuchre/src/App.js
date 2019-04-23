@@ -9,6 +9,7 @@ import AddPlayer from './components/AddPlayer';
 import AddAccount from "./components/AddAccount";
 import Signin from "./components/Signin";
 import EditGame from './components/EditGame';
+import Settings from './components/Settings';
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
           <Route path="/add_account" component={AddAccount} />
           <Route path="/signin" component={Signin} />
           <Route path="/games/:game_id" component={EditGame} />
+          <Route path="/settings" component={Settings} />
         </Switch>
       </div>
       </BrowserRouter>
