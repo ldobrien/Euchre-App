@@ -130,6 +130,7 @@ class EditGame extends Component {
             })
             return <Redirect to="/games" />
         }
+        if(this.props.auth.uid){
         return(
             <div className="container">
                 <form id="form" onSubmit={ this.handleSubmit }>
@@ -187,12 +188,16 @@ class EditGame extends Component {
                     <button type="submit"> Add </button>
                 </form>
             </div>
-        );
+        );}
+        else {
+            return <Redirect to="/games" />
+        }
     }
 }
 
 const mapStatetoProps = (state) => {
     return{
+        auth: state.firebase.auth,
         players: state.firestore.data.players,
         games: state.firestore.data.games
     }
