@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import Game from './Game'
 import AddGame from './AddGame';
 import { connect } from 'react-redux';
@@ -19,21 +20,19 @@ class Games extends Component {
         if(!this.props.games){
             return <p></p>
         }
+        // console.log(this.props.games)
         const gameList = this.props.games.map(game => {
-            // console.log(game.date.toDate())
             return (
-                <Game winner1={game.winner1} winner2={game.winner2}
-                loser1={game.loser1} loser2={game.loser2} score={game.score} date={game.date} key={Math.random()} />
+                <Link to={ '/games/' + game.id}>
+                    <Game winner1={game.winner1} winner2={game.winner2}
+                    loser1={game.loser1} loser2={game.loser2} score={game.score} date={game.date} key={Math.random()} />
+                </Link>
             )
-        })
-        gameList.sort(function(a,b){
-            return  b.props.date.toDate() - a.props.date.toDate()
         })
         return(
             <div className="container">
                 <h4 className="center">Games</h4>
                 {auth.uid ? <AddGame addGame={this.addGame}/>: null}
-                
                 {gameList}
             </div>
         );
@@ -51,6 +50,7 @@ const mapStatetoProps = (state) => {
 export default compose(
     connect(mapStatetoProps),
     firestoreConnect([{
-        collection: 'games'
+        collection: 'games',
+        orderBy: ["date", "desc"]
     }])
 )(Games)

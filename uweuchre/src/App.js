@@ -8,6 +8,7 @@ import Player from './components/Player';
 import AddPlayer from './components/AddPlayer';
 import AddAccount from "./components/AddAccount";
 import Signin from "./components/Signin";
+import EditGame from './components/EditGame';
 
 class App extends Component {
   render() {
@@ -18,11 +19,12 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/players" component={Players}/>
-          <Route path="/games" component={Games} />
+          <Route exact path="/games" component={Games} />
           <Route path="/players/:player_id" component={Player} />
           <Route path="/add" component={AddPlayer} />
           <Route path="/add_account" component={AddAccount} />
           <Route path="/signin" component={Signin} />
+          <Route path="/games/:game_id" component={EditGame} />
         </Switch>
       </div>
       </BrowserRouter>

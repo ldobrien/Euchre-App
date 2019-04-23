@@ -9,6 +9,18 @@ const gameReducer = (state = initState, action) => {
                 ...state,
                 games: [...state.games, action.game]
             }
+        case "UPDATE_GAME":
+            return{
+                ...state,
+                games: state.games.map((game, id) => {
+                    if (id === action.id) {
+                      return Object.assign({}, game, {
+                        completed: false
+                      })
+                    }
+                    return state.games
+                })
+            }
         default:
             return state;
     }

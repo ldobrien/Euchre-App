@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { createGame } from "../store/actions/gameActions";
+import { editGame } from "../store/actions/gameActions";
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
+import { Redirect } from 'react-router-dom'
 import "../AutocompleteText.css"
 
-class AddGame extends Component {
+class EditGame extends Component {
     state = {
-        winner1: "",
-        winner2: "",
-        loser1: "",
-        loser2: "",
-        score: -1,
-        date: new Date(),
+        winner1: this.props.winner1,
+        winner2: this.props.winner2,
+        loser1: this.props.loser1,
+        loser2: this.props.loser2,
+        score: this.props.score,
+        date: this.props.date,
         suggestions: {
-            winner1: [],
-            winner2: [],
-            loser1: [],
-            loser2: []
+        }
+    }
+
+    componentDidMount(){
+        console.log(this.props.games)
+        var { players, games } = this.props
+        players = this.props.players == null ? null : Object.keys(this.props.players);
+        const game = games == null ? null : games[this.props.match.params.game_id]
+        if (game !== null){
+            this.setState(() => ({
+                winner1: game.winner1,
+                winner2: game.winner2,
+                loser1: game.loser1,
+                loser2: game.loser2,
+                score: game.score
+            }));
         }
     }
 
     handleChange = (e) => {
         if(e != null){
-
             const name = e.target.name
             const value = e.target.value;
             const players = Object.keys(this.props.players);
-            console.log(name)
-            console.log(value.toString().length)
             let suggestions = [];
             if(value.length > 0 && players != null){
                 const regex = new RegExp(`^${value}`, 'i');
@@ -67,7 +77,6 @@ class AddGame extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         var score = Number(this.state.score);
-        var scoreString = score.toString();
         var l1 = this.state.loser1;
         var l2 = this.state.loser2;
         var w1 = this.state.winner1;
@@ -91,19 +100,11 @@ class AddGame extends Component {
             this.props.players[l2])
             {
             if(new Set([w1, w2, l1, l2]).size === 4){
-                this.props.createGame(this.state);
-                document.getElementById("form").reset();
+                this.props.editGame(this.props.match.params.game_id, this.state);
                 this.setState({
-                    success: "Game Added",
-                    error: null,
-                    winner1: '',
-                    winner2: '',
-                    loser1: '',
-                    loser2: '',
-                    score: -1
+                    success: "Game Updated"
                 })
-                window.alert("Game added")
-                
+                window.alert("Game Updated")
             } else{
                 this.setState({
                     success: null,
@@ -120,7 +121,15 @@ class AddGame extends Component {
     }
 
     render(){
-        const players = this.props.players == null ? null : Object.keys(this.props.players);
+        var { players, games } = this.props
+        players = this.props.players == null ? null : Object.keys(this.props.players);
+        const game = games == null ? null : games[this.props.match.params.game_id]
+        if(this.state.success === "Game Updated"){
+            this.setState({
+                success: null
+            })
+            return <Redirect to="/games" />
+        }
         return(
             <div className="container">
                 <form id="form" onSubmit={ this.handleSubmit }>
@@ -136,7 +145,7 @@ class AddGame extends Component {
                         autoComplete="off" 
                         input={players} 
                         name="winner1"
-                        placeholder="Winner"
+                        placeholder= "Winner"
                         onChange={ this.handleChange } 
                         value={this.state.winner1} />
                         {this.renderSuggestions("winner1")}
@@ -168,7 +177,13 @@ class AddGame extends Component {
                         value={this.state.loser2} />
                         {this.renderSuggestions("loser2")}
                     <label >Score</label>
-                    <input type="text" name="score" autoComplete="off" placeholder="Loser's Score" onChange={ this.handleChange} />
+                    <input 
+                        type="text" 
+                        name="score" 
+                        autoComplete="off" 
+                        placeholder="Loser's Score" 
+                        value={this.state.score}
+                        onChange={ this.handleChange} />
                     <button type="submit"> Add </button>
                 </form>
             </div>
@@ -178,18 +193,20 @@ class AddGame extends Component {
 
 const mapStatetoProps = (state) => {
     return{
-        players: state.firestore.data.players
+        players: state.firestore.data.players,
+        games: state.firestore.data.games
     }
 } 
 const mapDispatchtoProps = (dispatch) => {
     return {
-        createGame: (game) => dispatch(createGame(game))
+        editGame: (id, game) => dispatch(editGame(id, game))
     }
 }
 
 export default compose(
     connect(mapStatetoProps, mapDispatchtoProps),
     firestoreConnect([
-        { collection: 'players' }
+        { collection: 'players' },
+        { collection: 'games' }
     ])
-)(AddGame);
+) (EditGame);
