@@ -44,3 +44,17 @@ export const addPlayerRank = (playerName, rank) => {
         })
     }
 }
+
+export const deletePlayer = (playerName) => {
+    return (dispatch, getState, {getFirebase, getFirestore }) => {
+        // make async call to database
+        const firestore = getFirestore();
+        firestore.collection("players").doc(playerName).delete()
+        .then(() => {
+            dispatch({type: 'DELETE_PLAYERS', playerName})
+        })
+        .catch((err) => {
+            dispatch({type: "DELETE_PLAYERS_ERROR", err })
+        })
+    }
+}

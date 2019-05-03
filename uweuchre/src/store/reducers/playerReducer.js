@@ -19,6 +19,11 @@ const playerReducer = (state = initState, action) => {
                 ...state,
                 players: [...state.players, action.playerName, action.rank]
             }
+        case "DELETE_PLAYERS":
+            return {
+                ... state,
+                players: []
+            }
         default:
             return state;
     }

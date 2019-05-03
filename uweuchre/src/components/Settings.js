@@ -6,6 +6,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import "../AutocompleteText.css"
 import RankSettings from './RankSettings';
 import DeleteDatabase from './DeleteDatabase';
+import DeletePlayers from './DeletePlayers';
 
 class Settings extends Component {
     render(){
@@ -14,7 +15,14 @@ class Settings extends Component {
             <RankSettings/>
             <br></br>
             <br></br>
+            <div className="row">
+            <div className="col s6">
             <DeleteDatabase />
+            </div>
+            <div className="col s6">
+            <DeletePlayers />
+            </div>
+            </div>
             </div>
         );
     }

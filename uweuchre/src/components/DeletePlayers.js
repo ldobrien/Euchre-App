@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { deleteGame } from "../store/actions/gameActions";
+import { deletePlayer } from "../store/actions/playerActions";
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
 import "../AutocompleteText.css"
 
-class DeleteDatabase extends Component {
+class DeletePlayer extends Component {
 
     onClick = (e) => {
-        var gameKeys = Object.keys(this.props.games)
-        gameKeys.forEach(game => {
-            console.log(game)
-            this.props.deleteGame(game)
+        var playerKeys = Object.keys(this.props.players)
+        playerKeys.forEach(player => {
+            this.props.deletePlayer(player)
         });
     }
 
@@ -19,9 +18,9 @@ class DeleteDatabase extends Component {
     render(){
         return(
             <div className="container z-depth-1">
-                <h5 className="red-text center-align">Only press this button if you want to delete the entire games database</h5>
+                <h5 className="red-text center-align">Only press this button if you want to delete the entire player list</h5>
                 <div className="center-align">
-                    <button className="waves-effect waves-light red btn" onClick={ this.onClick }> Delete Database </button>
+                    <button className="waves-effect waves-light red btn" onClick={ this.onClick }> Delete all Players </button>
                 </div>
             </div>
         );
@@ -30,18 +29,18 @@ class DeleteDatabase extends Component {
 
 const mapStatetoProps = (state) => {
     return{
-        games: state.firestore.data.games
+        players: state.firestore.data.players
     }
 } 
 const mapDispatchtoProps = (dispatch) => {
     return {
-        deleteGame: (game) => dispatch(deleteGame(game))
+        deletePlayer: (player) => dispatch(deletePlayer(player))
     }
 }
 
 export default compose(
     connect(mapStatetoProps, mapDispatchtoProps),
     firestoreConnect([
-        { collection: 'games' }
+        { collection: 'players' }
     ])
-)(DeleteDatabase);
+)(DeletePlayer);
