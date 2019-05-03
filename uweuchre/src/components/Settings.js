@@ -5,8 +5,9 @@ import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
 import "../AutocompleteText.css"
 import RankSettings from './RankSettings';
-import DeleteDatabase from './DeleteDatabase';
 import DeletePlayers from './DeletePlayers';
+import EditGamesDatabase from './EditGamesDatabase';
+import DeleteDatabase from './DeleteDatabase';
 
 class Settings extends Component {
     state = {
@@ -36,11 +37,12 @@ class Settings extends Component {
         if(this.state.authorized){
             return(
                 <div>
-                    <RankSettings/>
+                    {/* <RankSettings/> */}
                     <br></br>
                     <br></br>
                     <div className="row">
                         <div className="col s6">
+                        {/* <EditGamesDatabase /> */}
                         <DeleteDatabase />
                         </div>
                         <div className="col s6">

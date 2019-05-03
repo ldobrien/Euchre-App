@@ -20,7 +20,6 @@ class Player extends Component {
             game.loser2 === player.Name;
             return x;
         }): null;
-        // console.log(playersGames)
         if(!player){
             return <p></p>
         }
