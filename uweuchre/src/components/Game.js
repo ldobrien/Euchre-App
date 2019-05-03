@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 class Game extends Component {
     render(){
-		// console.log(this.props)
-		var date = this.props.date == null ? null : this.props.date.toDate().toString();
+		var date = this.props.date == null ? null : this.props.date.toString();
         return(
             <div className="container">
 				<div className="game card pink">

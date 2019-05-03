@@ -13,14 +13,8 @@ class AddGame extends Component {
             loser1: "",
             loser2: "",
             score: -1,
-            date: new Date(),
+            date: new Date().toString(),
         },
-        // winner1: "",
-        // winner2: "",
-        // loser1: "",
-        // loser2: "",
-        // score: -1,
-        // date: new Date(),
         suggestions: {
             winner1: [],
             winner2: [],
@@ -35,8 +29,6 @@ class AddGame extends Component {
             const name = e.target.name
             const value = e.target.value;
             const players = Object.keys(this.props.players);
-            console.log(name, value)
-            console.log(this.state)
             let suggestions = [];
             if(value.length > 0 && players != null){
                 const regex = new RegExp(`^${value}`, 'i');
@@ -80,17 +72,12 @@ class AddGame extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
-            game:{
-                ...this.state.game,
-                date: new Date().getDate
-            }
-        })
         var score = Number(this.state.game.score);
         var l1 = this.state.game.loser1;
         var l2 = this.state.game.loser2;
         var w1 = this.state.game.winner1;
         var w2 = this.state.game.winner2;
+
         if(!(score < 10 && score >=0) || this.state.game.score.toString().length != 1){
             this.setState({
                 success: null,
@@ -119,7 +106,8 @@ class AddGame extends Component {
                         winner2: '',
                         loser1: '',
                         loser2: '',
-                        score: -1
+                        score: -1,
+                        date: new Date().toString()
                     }
                 })
                 window.alert("Game added")
@@ -139,16 +127,37 @@ class AddGame extends Component {
     
     }
 
+    resetState = (e) => {
+        this.setState({
+            game: {
+                winner1: "",
+                winner2: "",
+                loser1: "",
+                loser2: "",
+                score: -1,
+                date: new Date().toString(),
+            },
+            suggestions: {},
+            success: null,
+            error: null
+        })
+    }
+
     render(){
         const players = this.props.players == null ? null : Object.keys(this.props.players);
+        var error = this.state.error == null ? null : <p>{this.state.error}</p>
+        var success = this.state.success == null ? null : <p>{this.state.success}</p>
+        if(error != null || success != null){
+            var x = this.resetState
+        }
         return(
             <div className="container">
                 <form id="form" onSubmit={ this.handleSubmit }>
                 <div className="red-text center">
-                    {this.state.error ? <p>{this.state.error}</p> : null}
+                    {error}
                 </div>  
                 <div className="black-text center">
-                    {this.state.success ? <p>{this.state.success}</p> : null}
+                    {success}
                 </div>  
                     <label>Winner</label>
                     <input

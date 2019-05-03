@@ -19,7 +19,6 @@ class EditGame extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.games)
         var { players, games } = this.props
         players = this.props.players == null ? null : Object.keys(this.props.players);
         const game = games == null ? null : games[this.props.match.params.game_id]

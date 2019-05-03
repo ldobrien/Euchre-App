@@ -8,7 +8,6 @@ import { compose } from 'redux';
 
 class Games extends Component {
     addGame = (game) => {
-        // console.log("HERE")
         let lst = this.state.listofGames;
         lst.push(game);
         this.setState({
@@ -20,7 +19,6 @@ class Games extends Component {
         if(!this.props.games){
             return <p></p>
         }
-        console.log(this.props.games)
         const gameList = this.props.games.map(game => {
             return (
                 <Link to={ '/games/' + game.id}>
@@ -41,7 +39,6 @@ class Games extends Component {
 }
 
 const mapStatetoProps = (state) => {
-    // console.log(state.firestore.o)
     return{
         auth: state.firebase.auth,
         games: state.firestore.ordered.games
