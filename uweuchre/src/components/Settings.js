@@ -60,7 +60,7 @@ class Settings extends Component {
                     <div className="container">
                         <label htmlFor="email">Re-enter your Email</label>
                         <input type="email" id="email" onChange={this.handleChange}/>
-                        <button type="submit"> Add </button>
+                        <button type="submit"> Confirm </button>
                     </div>
                 </div>  
                 </form>

@@ -8,10 +8,16 @@ import "../AutocompleteText.css"
 class DeletePlayer extends Component {
 
     onClick = (e) => {
-        var playerKeys = Object.keys(this.props.players)
-        playerKeys.forEach(player => {
-            this.props.deletePlayer(player)
-        });
+        if(this.props.players != null){
+            var playerKeys = Object.keys(this.props.players)
+            playerKeys.forEach(player => {
+                this.props.deletePlayer(player)
+            });
+            window.alert("Player List Deleted")
+        } else {
+            window.alert("No Players to Delete")
+        }
+
     }
 
 

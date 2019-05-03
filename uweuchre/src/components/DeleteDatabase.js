@@ -8,11 +8,15 @@ import "../AutocompleteText.css"
 class DeleteDatabase extends Component {
 
     onClick = (e) => {
-        var gameKeys = Object.keys(this.props.games)
-        gameKeys.forEach(game => {
-            console.log(game)
-            this.props.deleteGame(game)
-        });
+        if(this.props.games != null){
+            var gameKeys = Object.keys(this.props.games)
+            gameKeys.forEach(game => {
+                this.props.deleteGame(game)
+            });
+            window.alert("Database Deleted")
+        } else {
+            window.alert("No Database to Delete")
+        }
     }
 
 

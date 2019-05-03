@@ -7,12 +7,20 @@ import "../AutocompleteText.css"
 
 class AddGame extends Component {
     state = {
-        winner1: "",
-        winner2: "",
-        loser1: "",
-        loser2: "",
-        score: -1,
-        date: new Date(),
+        game: {
+            winner1: "",
+            winner2: "",
+            loser1: "",
+            loser2: "",
+            score: -1,
+            date: new Date(),
+        },
+        // winner1: "",
+        // winner2: "",
+        // loser1: "",
+        // loser2: "",
+        // score: -1,
+        // date: new Date(),
         suggestions: {
             winner1: [],
             winner2: [],
@@ -27,15 +35,18 @@ class AddGame extends Component {
             const name = e.target.name
             const value = e.target.value;
             const players = Object.keys(this.props.players);
-            console.log(name)
-            console.log(value.toString().length)
+            console.log(name, value)
+            console.log(this.state)
             let suggestions = [];
             if(value.length > 0 && players != null){
                 const regex = new RegExp(`^${value}`, 'i');
                 suggestions = players.sort().filter(x => regex.test(x));
             }
             this.setState(() => ({
-                [name]: value,
+                game:{
+                    ...this.state.game,
+                    [name]: value
+                },
                 suggestions:{
                     [name]: suggestions
                 },
@@ -48,7 +59,10 @@ class AddGame extends Component {
             suggestions:{
                 [name]: []
             },
-            [name]: value
+            game:{
+                ...this.state.game,
+                [name]: value
+            }
         }))
     }
 
@@ -66,14 +80,18 @@ class AddGame extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        var score = Number(this.state.score);
-        var scoreString = score.toString();
-        var l1 = this.state.loser1;
-        var l2 = this.state.loser2;
-        var w1 = this.state.winner1;
-        var w2 = this.state.winner2;
-
-        if(!(score < 10 && score >=0) || this.state.score.toString().length != 1){
+        this.setState({
+            game:{
+                ...this.state.game,
+                date: new Date().getDate
+            }
+        })
+        var score = Number(this.state.game.score);
+        var l1 = this.state.game.loser1;
+        var l2 = this.state.game.loser2;
+        var w1 = this.state.game.winner1;
+        var w2 = this.state.game.winner2;
+        if(!(score < 10 && score >=0) || this.state.game.score.toString().length != 1){
             this.setState({
                 success: null,
                 error: "Score is invalid"
@@ -91,16 +109,18 @@ class AddGame extends Component {
             this.props.players[l2])
             {
             if(new Set([w1, w2, l1, l2]).size === 4){
-                this.props.createGame(this.state);
+                this.props.createGame(this.state.game);
                 document.getElementById("form").reset();
                 this.setState({
                     success: "Game Added",
                     error: null,
-                    winner1: '',
-                    winner2: '',
-                    loser1: '',
-                    loser2: '',
-                    score: -1
+                    game: {
+                        winner1: '',
+                        winner2: '',
+                        loser1: '',
+                        loser2: '',
+                        score: -1
+                    }
                 })
                 window.alert("Game added")
                 
@@ -138,7 +158,7 @@ class AddGame extends Component {
                         name="winner1"
                         placeholder="Winner"
                         onChange={ this.handleChange } 
-                        value={this.state.winner1} />
+                        value={this.state.game.winner1} />
                         {this.renderSuggestions("winner1")}
                     <input
                         type="text"
@@ -147,7 +167,7 @@ class AddGame extends Component {
                         name="winner2"
                         placeholder="Winner"
                         onChange={ this.handleChange } 
-                        value={this.state.winner2} />
+                        value={this.state.game.winner2} />
                         {this.renderSuggestions("winner2")}
                     <input
                         type="text"
@@ -156,7 +176,7 @@ class AddGame extends Component {
                         name="loser1"
                         placeholder="Loser"
                         onChange={ this.handleChange } 
-                        value={this.state.loser1} />
+                        value={this.state.game.loser1} />
                         {this.renderSuggestions("loser1")}
                     <input
                         type="text"
@@ -165,7 +185,7 @@ class AddGame extends Component {
                         name="loser2"
                         placeholder="Loser"
                         onChange={ this.handleChange } 
-                        value={this.state.loser2} />
+                        value={this.state.game.loser2} />
                         {this.renderSuggestions("loser2")}
                     <label >Score</label>
                     <input type="text" name="score" autoComplete="off" placeholder="Loser's Score" onChange={ this.handleChange} />

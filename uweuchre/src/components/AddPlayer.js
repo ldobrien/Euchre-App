@@ -7,7 +7,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 
 class AddPlayer extends Component {
     state = {
-        Name:"",
+        Name: null,
         Skill:"-",
         weight: 0,
         error: null,
@@ -16,7 +16,13 @@ class AddPlayer extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(this.props.players[this.state.Name]){
+        if(this.state.Name == null){
+            this.setState({
+                error: "No input received",
+                success: null
+            })
+        }
+        else if(this.props.players != null && this.props.players[this.state.Name]){
             this.setState({
                 error: "Unable to Add Player: Player is not unique",
                 success: null
@@ -25,7 +31,10 @@ class AddPlayer extends Component {
             this.props.createPlayer(this.state);
             this.setState({
                 error: null,
-                success: "Player successfully added"
+                success: "Player successfully added",
+                Name: null,
+                Skill: "-",
+                weight: 0,
             })
         }
     }

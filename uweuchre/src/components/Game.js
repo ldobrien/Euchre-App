@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class Game extends Component {
     render(){
 		// console.log(this.props)
+		var date = this.props.date == null ? null : this.props.date.toDate().toString();
         return(
             <div className="container">
 				<div className="game card pink">
@@ -14,7 +15,8 @@ class Game extends Component {
 							{this.props.loser1 + ', ' + this.props.loser2}</p>
 						</div>
 						<p className="score white-text"><span className="score-text">Losers' score: </span>{this.props.score}</p>
-						<p className="score white-text"><span className="score-text">Date: </span>{this.props.date.toDate().toString()}</p>
+						<p className="score white-text"><span className="score-text">Date: </span>
+						{date}</p>
 					</div>
 				</div>
 			</div>

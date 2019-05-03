@@ -20,12 +20,13 @@ class Games extends Component {
         if(!this.props.games){
             return <p></p>
         }
-        // console.log(this.props.games)
+        console.log(this.props.games)
         const gameList = this.props.games.map(game => {
             return (
                 <Link to={ '/games/' + game.id}>
                     <Game winner1={game.winner1} winner2={game.winner2}
-                    loser1={game.loser1} loser2={game.loser2} score={game.score} date={game.date} key={Math.random()} />
+                        loser1={game.loser1} loser2={game.loser2} 
+                        score={game.score} date={game.date} key={Math.random()} />
                 </Link>
             )
         })
