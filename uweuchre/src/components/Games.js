@@ -21,10 +21,10 @@ class Games extends Component {
         }
         const gameList = this.props.games.map(game => {
             return (
-                <Link to={ '/games/' + game.id}>
+                <Link to={ '/games/' + game.id} key={game.id}>
                     <Game winner1={game.winner1} winner2={game.winner2}
                         loser1={game.loser1} loser2={game.loser2} 
-                        score={game.score} date={game.date} key={Math.random()} />
+                        score={game.score} date={game.date} key={game.id} />
                 </Link>
             )
         })
