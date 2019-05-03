@@ -21,6 +21,11 @@ const gameReducer = (state = initState, action) => {
                     return state.games
                 })
             }
+        case "DELETE_GAME":
+            return{
+                ...state,
+                games: []
+            }
         default:
             return state;
     }

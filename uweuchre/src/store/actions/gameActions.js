@@ -32,3 +32,17 @@ export const editGame = (id, game) => {
         })
     }
 }
+
+export const deleteGame = (id) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        // make async call to database
+        const firestore = getFirestore();
+        firestore.collection("games").doc(id).delete()
+        .then(() => {
+            dispatch({type: 'DELETE_GAME', id})
+        })
+        .catch((err) => {
+            dispatch({type: "DELETE_GAME_ERROR", err})
+        })
+    }
+}
