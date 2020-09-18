@@ -1,0 +1,8 @@
+.mainImage {
+    max-height: 100vh;
+    max-width: 100vw;
+}
+
+.cardPadding {
+    margin-right: 1px;
+}

@@ -8,7 +8,7 @@ const Navbar = (props) => {
     const { auth } = props;
     const links = auth.uid ? <SignedInLinks /> : <SignedOutLinks />;
     return(
-        <nav className="nav-wrapper pink">
+        <nav className="nav-wrapper light-blue darken-1">
             <div className="container">
                 <a className="brand-logo white-text">UW Euchre</a>
                 { links }

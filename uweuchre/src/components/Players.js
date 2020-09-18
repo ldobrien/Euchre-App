@@ -5,7 +5,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import AddPlayer from "./AddPlayer";
 import { addPlayerWeight, addPlayerRank } from "../store/actions/playerActions";
-// import Player from "./Player"
+import './Home.css'
 
 class Players extends Component {
     state = {
@@ -52,13 +52,13 @@ class Players extends Component {
             var totalGames = winsize + losssize;
             var winLoss = totalGames != 0 ? winsize * 100 / totalGames : 0;
             var average = totalGames != 0 ? totalPoints / totalGames : 0;
-            const weight = totalGames > 14 ? winLoss * .002 + average * .08 : 0;
+            const weight = totalGames > 14 ? winLoss * .02 + average * .08 : 0;
             temp = this.props ? this.props.addPlayerWeight(p.Name, weight) : null;
         }
     }
 
     addRanks = async () =>{
-        const { players, auth, games } = this.props;
+        const { players } = this.props;
         if(!players){
             return <p></p>
         }
@@ -77,31 +77,63 @@ class Players extends Component {
     
     render(){
         this.addRanks();
-        const { players, auth, games } = this.props;
+        const { players, auth } = this.props;
         if(!players){
             return <p></p>
         }
-        
-        const playerList = Object.values(players).map(player => {
+        console.log(Object.values(players))
+        const rankedPlayerList = [];
+        const unrankedPlayerList = [];
+        Object.values(players).forEach(player => {
+            if(player.weight !== 0){
+                rankedPlayerList.push(player)
+            } else {
+                unrankedPlayerList.push(player)
+            }
+        })
+        const rankedPlayerListSorted = rankedPlayerList.slice().sort((a,b) => Number(a.rank) - Number(b.rank))
+        let rankedPlayerListDiv = [];
+        let unrankedPlayerListDiv = [];
+
+        rankedPlayerListSorted.forEach(player => {
             const rank = player.weight === 0 ? null : <p className="white-text">Rank: {player.rank}</p>;
-            return (
-                <div className="post card pink" key={player.id}>
-                    <div className="card-content">
-                    <Link to={ '/players/' + player.id}>
-                        <p className="card-title white-text">{player.Name}</p>
-                        {rank}
-                    </Link>
+            rankedPlayerListDiv.push(
+                <div className="col s4">
+                    <div className="game card light-blue darken-1" key={player.id}>
+                        <div className="card-content">
+                            <Link to={ '/players/' + player.id}>
+                                <p className="card-title white-text">{player.Name}</p>
+                                {rank}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             )
         })
+        unrankedPlayerList.forEach(player => {
+            unrankedPlayerListDiv.push(
+                <div className="col s4">
+                    <div className="game card pink" key={player.id}>
+                        <div className="card-content">
+                            <Link to={ '/players/' + player.id}>
+                                <p className="card-title white-text">{player.Name}</p>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
+
         return(
-            <div className="container">
+            <div>
             {auth.uid ? <AddPlayer/>: null}
                 <h4 className="center">Players</h4>
                 <div className="container">
-					<div className="card-content">
-                    {playerList}
+					{/* <div className="card-content"> */}
+                        <div className="row">
+                        {rankedPlayerListDiv}
+                        {unrankedPlayerListDiv}
+                        {/* </div> */}
 				    </div>
 			    </div>
             </div>
